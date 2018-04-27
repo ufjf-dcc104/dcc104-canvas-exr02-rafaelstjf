@@ -21,7 +21,7 @@
         var ctx = screen.getContext("2d");
         var dt = prevTime = 0;
         var maxEnemyBullet = 6;
-        var debug = false; //to see the hit boxes
+        var debug = true; //to see the hit boxes
         var inGame = false;
         var maxSpeed = 200;
         var highScore = 0;
@@ -111,33 +111,11 @@
                 case 39: //right arrow key
                     player.vx = 300;
                     break;
-                /*case 38: //up arrow key
-                    if (player.fuel > 0.0) {
-                        player.fuel = player.fuel - player.fuel * dt;
-                        if (player.fuel <= 0.9)
-                            player.fuel = 0.0;
-                        player.ay = (-300);
-                    } else {
-                        player.ay = 0;
-                    }
-                    break;
-                */
                 default:
             }
         });
         addEventListener("keyup", function (e) {
             switch (e.keyCode) {
-                /*
-                case 37: //left arrow key
-                    player.vx = -0;
-                    break;
-                case 39: //right arrow key
-                    player.vx = -0;
-                    break;
-                case 38: //up arrow key
-                    player.ay = 0;
-                    break;
-                */
                 case 32: //space key
                     if (inGame == false) {
                         player.lifes = 3;

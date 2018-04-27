@@ -8,7 +8,7 @@ HUD.prototype.draw = function (ctx, speed, fuel, score, lifes, highScore) {
     ctx.fillRect(1, 1, this.screenWidth-2, 40);
     ctx.font = "29px Arial";
     ctx.fillStyle = "black";
-    ctx.fillText("Fuel: ", 0, 30);
+    ctx.fillText("Energy: ", 0, 30);
     ctx.fillText("Score: " + score, 550, 30);
     ctx.fillText("High Score: " + highScore, 750, 30);
     ctx.fillText("Lifes: " + lifes, 430, 30);
@@ -19,8 +19,8 @@ HUD.prototype.draw = function (ctx, speed, fuel, score, lifes, highScore) {
         ctx.fillStyle = "yellow";
     if (fuel < 30)
         ctx.fillStyle = "red";
-    ctx.fillRect(80, 5, fuel, 30);
-    ctx.strokeRect(80, 5, 100 , 30);
+    ctx.fillRect(120, 5, fuel, 30);
+    ctx.strokeRect(120, 5, 100 , 30);
 
 }
 
