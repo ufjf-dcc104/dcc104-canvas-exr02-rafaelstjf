@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Exercicio 2</title>
+    <script src="scripts/Player.js"> //Player code </script>
+    <script src="scripts/HUD.js"> //HUD code</script>
+    <script src="scripts/Enemy.js"> //Enemy code</script>
+    <script src="scripts/Bullet.js"> //Bullet code</script>
+
+
+</head>
+
+<body>
+    <h1>Exercicio 2</h1>
+    <canvas width="1000" height="500"></canvas>
+    <script>
+        //Variables
+        var screen = document.getElementsByTagName("canvas")[0];
+        var ctx = screen.getContext("2d");
+        var dt = prevTime = 0;
+        var maxEnemyBullet = 6;
+        var debug = false; //to see the hit boxes
+        var inGame = false;
+        var maxSpeed = 200;
+        var highScore = 0;
+        var level = 0;
+        var enemies = [];
+        var bullets = [];
+        var player = new Player(screen.width, screen.height);
+        var HUD = new HUD(screen.width);
+        for (var i = 0; i < maxEnemyBullet; i++) {
+            enemies.push(new Enemy(screen.width, screen.height));
+            bullets.push(new Bullet());
+        }
+        //functions
+        function clearScreen() {
+            ctx.fillStyle = "white";
+            ctx.fillRect(0, 0, screen.width, screen.height);
+            ctx.strokeStyle = "black";
+            ctx.strokeRect(0, 0, screen.width, screen.height);
+
+
+        }
+        function resetVariables() {
+            //restore the variables to their default value
+            player.fuel = 100;
+            player.x = player.x0;
+            player.y = player.y0;
+            player.vx = 0;
+        }
+        function step(t) {
+            clearScreen();
+            if (inGame == true) {
+                dt = (t - prevTime) / 1000;
+                for (var i = 0; i < maxEnemyBullet; i++) {
+                    enemies[i].move(dt);
+                    enemies[i].boundaries(0, 40, screen.width, screen.height);
+                    bullets[i].move(dt);
+                    bullets[i].boundaries(0, 40, screen.width, screen.height);
+                }
+                player.move(dt);
+                player.boundaries(0, 40, screen.width, screen.height);
+                for (var i = 0; i < maxEnemyBullet; i++) {
+                    for (var j = 0; j < maxEnemyBullet; j++) {
+                        if (bullets[i].collideWith(enemies[j]) == true) {
+                            player.score += 100;
+                            bullets[i].hide();
+                            enemies[j].y = 0;
+                            enemies[j].x = Math.random() * (screen.width - 80) + 40;
+                        }
+                    }
+                    if (enemies[i].collideWith(player) == true) {
+                        player.fuel -= 25;
+                        enemies[i].y = 0;
+                        if (player.fuel <= 0) {
+                            player.lifes--;
+                            if (player.lifes > 0) {
+                                resetVariables();
+                            } else {
+                                if (highScore < player.score)
+                                    highScore = player.score;
+                                inGame = false;
+                            }
+                        }
+
+                    }
+                    enemies[i].draw(ctx);
+                    bullets[i].draw(ctx);
+
+                }
+                player.draw(ctx);
+                HUD.draw(ctx, -1 * player.vy, player.fuel, player.score, player.lifes);
+                prevTime = t;
+            } else {
+                HUD.drawMenu(ctx, 700, 400, highScore);
+            }
+
+
+            requestAnimationFrame(step);
+        }
+
+        requestAnimationFrame(step);
+
+        addEventListener("keydown", function (e) {
+            switch (e.keyCode) {
+                case 37: //left arrow key
+                    player.vx = -300;
+                    break;
+                case 39: //right arrow key
+                    player.vx = 300;
+                    break;
+                /*case 38: //up arrow key
+                    if (player.fuel > 0.0) {
+                        player.fuel = player.fuel - player.fuel * dt;
+                        if (player.fuel <= 0.9)
+                            player.fuel = 0.0;
+                        player.ay = (-300);
+                    } else {
+                        player.ay = 0;
+                    }
+                    break;
+                */
+                default:
+            }
+        });
+        addEventListener("keyup", function (e) {
+            switch (e.keyCode) {
+                /*
+                case 37: //left arrow key
+                    player.vx = -0;
+                    break;
+                case 39: //right arrow key
+                    player.vx = -0;
+                    break;
+                case 38: //up arrow key
+                    player.ay = 0;
+                    break;
+                */
+                case 32: //space key
+                    if (inGame == false) {
+                        player.lifes = 3;
+                        level = 1;
+                        resetVariables();
+                        player.score = 0;
+                        dt = prevTime = 0;
+                        inGame = true;
+                    } else {
+                        var j = -1;
+                        for (var i = 0; i < bullets.length; i++) {
+                            if (bullets[i].inUse == false) {
+                                j = i;
+                                break;
+                            }
+                        }
+                        if (j >= 0)
+                            bullets[j].spawn(player.x + player.w / 2, player.y);
+                    }
+                    break;
+                default:
+            }
+        });
+    </script>
+</body>
+
+</html>
