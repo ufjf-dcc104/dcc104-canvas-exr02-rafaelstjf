@@ -91,7 +91,7 @@
 
                 }
                 player.draw(ctx);
-                HUD.draw(ctx, -1 * player.vy, player.fuel, player.score, player.lifes);
+                HUD.draw(ctx, -1 * player.vy, player.fuel, player.score, player.lifes, highScore);
                 prevTime = t;
             } else {
                 HUD.drawMenu(ctx, 700, 400, highScore);

@@ -4,7 +4,7 @@ function HUD(screenWidth) {
     this.screenWidth = screenWidth;
 }
 
-HUD.prototype.draw = function (ctx, speed, fuel, score, lifes ) {
+HUD.prototype.draw = function (ctx, speed, fuel, score, lifes, highScore) {
     ctx.fillRect(1, 1, this.screenWidth-2, 40);
     ctx.font = "29px Arial";
     ctx.fillStyle = "black";
