@@ -3,8 +3,8 @@ function Enemy(w1, h1) {
     this.y =0;
     this.x0 = this.x;
     this.y0 = this.y;
-    this.w = 40;
-    this.h = 40;
+    this.w = 42;
+    this.h = 42;
     this.vx = Math.random()*(200 + 200) - 200;
     this.vy = Math.random()*(200 - 100) + 100;
     this.ax = 0;
@@ -20,7 +20,7 @@ function Enemy(w1, h1) {
 Enemy.prototype.draw = function (ctx) {
     ctx.save();
     //triangle
-    ctx.beginPath();
+    /*ctx.beginPath();
     ctx.fillStyle = this.cor;
     ctx.strokeStyle = this.strokeColor;
     ctx.moveTo(this.x, this.y);
@@ -30,6 +30,8 @@ Enemy.prototype.draw = function (ctx) {
     ctx.fill();
     ctx.stroke();
     ctx.closePath();
+    */
+    imgController.drawSize(ctx, 1, this.x, this.y, this.w, this.h)
     //hitbox
     if (debug == true) {
         ctx.strokeStyle = "red";
@@ -72,4 +74,8 @@ Enemy.prototype.collideWith = function (target) {
     if (target.y > this.y + this.h) return false;
     return true;
 
+}
+Enemy.prototype.resetAxis = function(){
+    this.x = this.x0;
+    this.y = this.y0;
 }

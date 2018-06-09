@@ -3,8 +3,8 @@ function Player(w1, h1) {
     this.y = h1 - 45;
     this.x0 = this.x;
     this.y0 = this.y;
-    this.w = 40;
-    this.h = 40;
+    this.w = 42;
+    this.h = 42;
     this.vx = 0;
     this.vy = 0;
     this.ax = 0;
@@ -20,6 +20,7 @@ function Player(w1, h1) {
 Player.prototype.draw = function (ctx) {
     ctx.save();
     //triangle
+    /*
     ctx.beginPath();
     ctx.fillStyle = this.cor;
     ctx.strokeStyle = this.strokeColor;
@@ -30,6 +31,8 @@ Player.prototype.draw = function (ctx) {
     ctx.fill();
     ctx.stroke();
     ctx.closePath();
+    */
+    imgController.drawSize(ctx, 0, this.x, this.y, this.w, this.h)
     //hitbox
     if (debug == true) {
         ctx.strokeStyle = "red";

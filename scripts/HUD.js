@@ -7,12 +7,12 @@ function HUD(screenWidth) {
 HUD.prototype.draw = function (ctx, speed, fuel, score, lifes, highScore) {
     ctx.fillRect(1, 1, this.screenWidth-2, 40);
     ctx.font = "29px Arial";
-    ctx.fillStyle = "black";
+    ctx.fillStyle = "Aquamarine";
     ctx.fillText("Energy: ", 0, 30);
     ctx.fillText("Score: " + score, 550, 30);
     ctx.fillText("High Score: " + highScore, 750, 30);
     ctx.fillText("Lifes: " + lifes, 430, 30);
-    ctx.strokeStyle = "black";
+    ctx.strokeStyle = "Aquamarine";
     if (fuel > 70)
         ctx.fillStyle = "green";
     if (fuel > 30 && fuel < 70)

@@ -8,6 +8,8 @@
     <script src="scripts/HUD.js"> //HUD code</script>
     <script src="scripts/Enemy.js"> //Enemy code</script>
     <script src="scripts/Bullet.js"> //Bullet code</script>
+    <script src="scripts/ImageLibrary.js"></script>
+    <script src="scripts/AudioLibrary.js"></script>
 
 
 </head>
@@ -17,17 +19,28 @@
     <canvas width="1000" height="500"></canvas>
     <script>
         //Variables
+        var imgController = new ImageLibrary();
+        var audioController = new AudioLibrary();
+        //loading sprites
+        imgController.load(0, "assets/spaceship.png");
+        imgController.load(1, "assets/enemy.png");
+        imgController.load(2, "assets/bullet.png");
+        //loading sounds
+        audioController.load(0, "assets/bullet-sound.mp3");
+        audioController.load(1, "assets/explosion-sound.mp3");
+
         var screen = document.getElementsByTagName("canvas")[0];
         var ctx = screen.getContext("2d");
         var dt = prevTime = 0;
         var maxEnemyBullet = 6;
-        var debug = true; //to see the hit boxes
+        var debug = false; //to see the hit boxes
         var inGame = false;
         var maxSpeed = 200;
         var highScore = 0;
         var level = 0;
         var enemies = [];
         var bullets = [];
+
         var player = new Player(screen.width, screen.height);
         var HUD = new HUD(screen.width);
         for (var i = 0; i < maxEnemyBullet; i++) {
@@ -36,9 +49,9 @@
         }
         //functions
         function clearScreen() {
-            ctx.fillStyle = "white";
+            ctx.fillStyle = "black";
             ctx.fillRect(0, 0, screen.width, screen.height);
-            ctx.strokeStyle = "black";
+            ctx.strokeStyle = "white";
             ctx.strokeRect(0, 0, screen.width, screen.height);
 
 
@@ -65,6 +78,7 @@
                 for (var i = 0; i < maxEnemyBullet; i++) {
                     for (var j = 0; j < maxEnemyBullet; j++) {
                         if (bullets[i].collideWith(enemies[j]) == true) {
+                            audioController.play(1);
                             player.score += 100;
                             bullets[i].hide();
                             enemies[j].y = 0;
@@ -72,8 +86,9 @@
                         }
                     }
                     if (enemies[i].collideWith(player) == true) {
+                        audioController.play(1);
                         player.fuel -= 25;
-                        enemies[i].y = 0;
+                        enemies[i].resetAxis();
                         if (player.fuel <= 0) {
                             player.lifes--;
                             if (player.lifes > 0) {
