@@ -1,10 +1,12 @@
 function Enemy(w1, h1) {
     this.x = Math.random() *(w1-80)+ 40;
-    this.y =0;
+    this.y =-100;
     this.x0 = this.x;
     this.y0 = this.y;
     this.w = 42;
     this.h = 42;
+    this.w2 = 20;
+    this.h2 = 20;
     this.vx = Math.random()*(200 + 200) - 200;
     this.vy = Math.random()*(200 - 100) + 100;
     this.ax = 0;
@@ -31,14 +33,15 @@ Enemy.prototype.draw = function (ctx) {
     ctx.stroke();
     ctx.closePath();
     */
-    imgController.drawSize(ctx, 1, this.x, this.y, this.w, this.h)
+   ctx.translate(this.x, this.y); //center in the middle of the Enemy
+    imgController.drawSize(ctx, 1, -this.w/2, -this.h/2, this.w, this.h)
+    ctx.restore();
+
     //hitbox
     if (debug == true) {
         ctx.strokeStyle = "red";
-        ctx.strokeRect(this.x, this.y, this.w, this.h);
+        ctx.strokeRect(this.x-this.w/4, this.y-this.h/4, this.w2, this.h2);
     }
-    ctx.translate(this.x, this.y); //center in the middle of the Enemy
-    ctx.restore();
 }
 
 Enemy.prototype.move = function (dt) {
@@ -68,10 +71,10 @@ Enemy.prototype.boundaries = function (x, y, w, h) {
     }
 }
 Enemy.prototype.collideWith = function (target) {
-    if (target.x + target.w < this.x) return false;
-    if (target.x > this.x + this.w) return false;
-    if (target.y + target.h < this.y) return false;
-    if (target.y > this.y + this.h) return false;
+    if (target.x + target.w2 < this.x - this.w2/2) return false;
+    if (target.x - target.w2/2 > this.x + this.w2) return false;
+    if (target.y + target.h2 < this.y - this.h2/2) return false;
+    if (target.y -target.h/2> this.y + this.h2) return false;
     return true;
 
 }

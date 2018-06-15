@@ -23,7 +23,10 @@ Bullet.prototype.draw = function(ctx){
     ctx.stroke();
     ctx.closePath();
     */
-   imgController.drawSize(ctx, 2, this.x, this.y, this.w, this.h)
+   ctx.save();
+   ctx.translate(this.x, this.y);
+   imgController.drawSize(ctx, 2, -this.w/2, -this.h/2, this.w, this.h);
+   ctx.restore();
 }
 Bullet.prototype.move = function(dt){
     this.x = this.x + this.vx * dt;
@@ -64,10 +67,10 @@ Bullet.prototype.boundaries = function (x, y, w, h) {
     }
 }
 Bullet.prototype.collideWith = function (target) {
-    if (target.x + target.w < this.x - this.radius) return false;
-    if (target.x > this.x + this.radius) return false;
-    if (target.y + target.h < this.y -this.radius) return false;
-    if (target.y > this.y + this.radius) return false;
+    if (target.x + target.w2 < this.x - this.w/2) return false;
+    if (target.x - target.w2/2 > this.x + this.w/2) return false;
+    if (target.y + target.h2 < this.y - this.h/2 ) return false;
+    if (target.y - target.h2/2 > this.y + this.h/2) return false;
     return true;
 
 }

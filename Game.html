@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>Exercicio 2</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
     <script src="scripts/Player.js"> //Player code </script>
     <script src="scripts/HUD.js"> //HUD code</script>
     <script src="scripts/Enemy.js"> //Enemy code</script>
@@ -16,7 +17,9 @@
 
 <body>
     <h1>Exercicio 2</h1>
-    <canvas width="1000" height="500"></canvas>
+    <div id="canvas-content">
+        <canvas id="canvas" width="1000" height="500"></canvas>
+    </div>
     <script>
         //Variables
         var imgController = new ImageLibrary();
@@ -148,7 +151,7 @@
                             }
                         }
                         if (j >= 0)
-                            bullets[j].spawn(player.x + player.w / 2, player.y);
+                            bullets[j].spawn((player.x - (player.w / 4) + bullets[j].w), player.y-(player.h/2));
                     }
                     break;
                 default:
